@@ -43,12 +43,12 @@ export default async function SorteoPage({ params }: PageProps) {
         <div className="relative z-10 mx-auto w-full max-w-3xl px-4 py-10 sm:px-10 sm:py-16">
           <Link
             href="/"
-            className="font-display text-2xl font-semibold tracking-tight text-ink transition hover:text-coral"
+            className="brand-mark font-display text-2xl font-semibold tracking-tight transition hover:opacity-80"
           >
             Sorteillos
           </Link>
 
-          <p className="mt-10 text-sm font-medium text-pine">Amigo invisible</p>
+          <p className="mt-10 text-sm font-medium text-coral">Amigo invisible</p>
           <h1 className="mt-2 font-display text-3xl font-semibold tracking-tight text-ink sm:text-5xl">
             {sorteo.titulo}
           </h1>
@@ -56,19 +56,15 @@ export default async function SorteoPage({ params }: PageProps) {
             Para ver a quién te toca, entra o crea una cuenta. Luego vuelves
             aquí automáticamente.
           </p>
-          <p className="mt-2 font-mono text-sm text-pine">{sorteo.codigo}</p>
+          <p className="mt-2 font-mono text-sm tracking-wide text-coral/80">
+            {sorteo.codigo}
+          </p>
 
           <div className="mt-10 flex w-full flex-col gap-3 sm:max-w-sm sm:flex-row">
-            <Link
-              href={`/registro${nextQuery}`}
-              className="inline-flex min-h-11 flex-1 items-center justify-center rounded-md bg-coral px-6 py-3 text-center font-semibold text-foam transition hover:bg-[#27695c]"
-            >
+            <Link href={`/registro${nextQuery}`} className="btn-primary flex-1">
               Crear cuenta
             </Link>
-            <Link
-              href={`/login${nextQuery}`}
-              className="inline-flex min-h-11 flex-1 items-center justify-center rounded-md border border-ink/15 bg-foam/80 px-6 py-3 text-center font-semibold text-ink transition hover:border-ink/30"
-            >
+            <Link href={`/login${nextQuery}`} className="btn-secondary flex-1">
               Ya tengo cuenta
             </Link>
           </div>
@@ -127,19 +123,19 @@ export default async function SorteoPage({ params }: PageProps) {
         <div className="flex flex-wrap items-center justify-between gap-3">
           <Link
             href="/"
-            className="font-display text-2xl font-semibold tracking-tight text-ink transition hover:text-coral"
+            className="brand-mark font-display text-2xl font-semibold tracking-tight transition hover:opacity-80"
           >
             Sorteillos
           </Link>
           <Link
             href="/panel"
-            className="text-sm font-semibold text-pine underline-offset-4 hover:underline"
+            className="text-sm font-semibold text-pine transition hover:text-coral"
           >
             Mi panel
           </Link>
         </div>
 
-        <p className="mt-8 text-sm font-medium text-pine sm:mt-10">
+        <p className="mt-8 text-sm font-medium text-coral sm:mt-10">
           Amigo invisible
         </p>
         <h1 className="mt-2 font-display text-3xl font-semibold tracking-tight text-ink sm:text-5xl">
@@ -153,11 +149,11 @@ export default async function SorteoPage({ params }: PageProps) {
               <span className="font-semibold text-ink">{mio.nombre}</span>. Te
               ha tocado regalar a:
             </p>
-            <p className="mt-5 break-words font-display text-4xl font-semibold tracking-tight text-mark sm:text-6xl">
+            <p className="rise mt-5 break-words font-display text-4xl font-semibold tracking-tight text-mark sm:text-6xl">
               {mio.asignadoA}
             </p>
             {sorteo.mensaje ? (
-              <p className="mt-8 border-l-2 border-ink pl-4 text-base leading-relaxed text-pine">
+              <p className="mt-8 border-l-2 border-lilac pl-4 text-base leading-relaxed text-pine">
                 {sorteo.mensaje}
               </p>
             ) : null}
@@ -185,7 +181,7 @@ export default async function SorteoPage({ params }: PageProps) {
         )}
 
         {esCreador ? (
-          <section className="mt-12 max-w-lg border-t border-pine/15 pt-8 sm:mt-14">
+          <section className="mt-12 max-w-lg border-t border-lilac/40 pt-8 sm:mt-14">
             <h2 className="font-display text-xl font-semibold text-ink">
               Pendientes de unirse
             </h2>
@@ -196,10 +192,7 @@ export default async function SorteoPage({ params }: PageProps) {
             ) : (
               <div className="mt-4 flex flex-wrap gap-2">
                 {pendientes.map((p) => (
-                  <span
-                    key={p.nombre}
-                    className="rounded-md border border-ink/10 bg-foam/80 px-3 py-2 text-sm text-ink"
-                  >
+                  <span key={p.nombre} className="chip">
                     {p.nombre}
                   </span>
                 ))}

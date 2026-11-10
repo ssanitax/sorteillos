@@ -20,13 +20,13 @@ export default async function RegistroPage({ searchParams }: PageProps) {
         <div className="flex flex-wrap items-center justify-between gap-3">
           <Link
             href="/"
-            className="font-display text-2xl font-semibold tracking-tight text-ink transition hover:text-coral"
+            className="brand-mark font-display text-2xl font-semibold tracking-tight transition hover:opacity-80"
           >
             Sorteillos
           </Link>
           <Link
             href={next}
-            className="text-sm font-semibold text-pine underline-offset-4 hover:underline"
+            className="text-sm font-semibold text-pine transition hover:text-coral"
           >
             ← Atrás
           </Link>

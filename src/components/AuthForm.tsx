@@ -71,7 +71,7 @@ export function AuthForm({ mode, next }: Props) {
   return (
     <form onSubmit={onSubmit} className="mt-8 flex w-full max-w-md flex-col gap-6">
       {destination !== "/panel" ? (
-        <p className="rounded-md border border-ink/10 bg-foam/70 px-4 py-3 text-sm text-pine">
+        <p className="soft-panel px-4 py-3 text-sm text-pine">
           Cuando entres, te llevamos de vuelta al sorteo.
         </p>
       ) : null}
@@ -86,7 +86,7 @@ export function AuthForm({ mode, next }: Props) {
           minLength={3}
           maxLength={24}
           pattern="[a-z0-9_]{3,24}"
-          className="border-0 border-b-2 border-pine/30 bg-transparent py-3 text-lg text-ink outline-none transition focus:border-ink"
+          className="field-line text-lg"
         />
       </label>
 
@@ -99,7 +99,7 @@ export function AuthForm({ mode, next }: Props) {
           autoComplete={isRegistro ? "new-password" : "current-password"}
           required
           minLength={8}
-          className="border-0 border-b-2 border-pine/30 bg-transparent py-3 text-lg text-ink outline-none transition focus:border-ink"
+          className="field-line text-lg"
         />
       </label>
 
@@ -115,13 +115,13 @@ export function AuthForm({ mode, next }: Props) {
             autoComplete="new-password"
             required
             minLength={8}
-            className="border-0 border-b-2 border-pine/30 bg-transparent py-3 text-lg text-ink outline-none transition focus:border-ink"
+            className="field-line text-lg"
           />
         </label>
       ) : null}
 
       {error ? (
-        <p className="text-sm font-medium text-coral-deep" role="alert">
+        <p className="text-sm font-medium text-mark" role="alert">
           {error}
         </p>
       ) : null}
@@ -129,13 +129,9 @@ export function AuthForm({ mode, next }: Props) {
       <button
         type="submit"
         disabled={loading}
-        className="inline-flex min-h-11 w-full items-center justify-center rounded-md bg-coral px-7 py-3 text-base font-semibold text-foam transition hover:bg-[#27695c] disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
+        className="btn-primary w-full sm:w-auto"
       >
-        {loading
-          ? "Espera…"
-          : isRegistro
-            ? "Crear cuenta"
-            : "Entrar"}
+        {loading ? "Espera…" : isRegistro ? "Crear cuenta" : "Entrar"}
       </button>
 
       <p className="text-sm text-pine">

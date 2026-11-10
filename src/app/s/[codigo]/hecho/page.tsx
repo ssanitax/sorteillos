@@ -46,19 +46,19 @@ export default async function HechoPage({ params }: PageProps) {
         <div className="flex flex-wrap items-center justify-between gap-3">
           <Link
             href="/"
-            className="font-display text-2xl font-semibold tracking-tight text-ink transition hover:text-coral"
+            className="brand-mark font-display text-2xl font-semibold tracking-tight transition hover:opacity-80"
           >
             Sorteillos
           </Link>
           <Link
             href="/panel"
-            className="text-sm font-medium text-pine underline-offset-4 hover:underline"
+            className="text-sm font-medium text-pine transition hover:text-coral"
           >
             Mi panel
           </Link>
         </div>
 
-        <p className="mt-8 text-sm font-medium text-pine sm:mt-10">Listo</p>
+        <p className="mt-8 text-sm font-medium text-coral sm:mt-10">Listo</p>
         <h1 className="mt-2 font-display text-3xl font-semibold tracking-tight text-ink sm:text-5xl">
           {sorteo.titulo}
         </h1>
@@ -71,7 +71,7 @@ export default async function HechoPage({ params }: PageProps) {
 
         <p className="mt-6 text-sm text-pine">
           Código:{" "}
-          <span className="font-mono font-semibold text-ink">
+          <span className="font-mono font-semibold tracking-wide text-coral">
             {sorteo.codigo}
           </span>
         </p>
@@ -79,7 +79,7 @@ export default async function HechoPage({ params }: PageProps) {
         <div className="mt-10 flex flex-wrap gap-4">
           <Link
             href={`/s/${sorteo.codigo}`}
-            className="text-sm font-medium text-coral underline-offset-4 hover:underline"
+            className="text-sm font-semibold text-coral underline-offset-4 hover:underline"
           >
             Unirme yo también
           </Link>

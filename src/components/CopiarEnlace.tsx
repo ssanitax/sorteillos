@@ -28,17 +28,13 @@ export function CopiarEnlace({ path, fallback }: Props) {
 
   return (
     <div className="mt-8 flex w-full max-w-2xl flex-col gap-4">
-      <div className="min-w-0">
+      <div className="soft-panel px-4 py-4 sm:px-5">
         <p className="text-sm font-medium text-pine">Enlace para compartir</p>
-        <p className="mt-2 break-all border-b-2 border-pine/25 pb-2 font-mono text-sm text-ink sm:text-base">
+        <p className="mt-2 break-all font-mono text-sm text-ink sm:text-base">
           {displayUrl}
         </p>
       </div>
-      <button
-        type="button"
-        onClick={copy}
-        className="inline-flex min-h-11 w-full items-center justify-center rounded-md bg-coral px-6 py-3 text-sm font-semibold text-foam transition hover:bg-[#27695c] sm:w-auto"
-      >
+      <button type="button" onClick={copy} className="btn-primary w-full sm:w-auto">
         {copied ? "Copiado" : "Copiar enlace"}
       </button>
     </div>

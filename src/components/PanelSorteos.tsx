@@ -59,61 +59,63 @@ export function PanelSorteos({ creados: initialCreados, unidos }: Props) {
   }
 
   return (
-    <div className="mt-12 flex flex-col gap-14">
+    <div className="mt-12 flex flex-col gap-12">
       {error ? (
-        <p className="text-sm font-medium text-coral-deep" role="alert">
+        <p className="text-sm font-medium text-mark" role="alert">
           {error}
         </p>
       ) : null}
 
       <section>
-        <h2 className="font-display text-2xl font-bold text-ink">
+        <h2 className="font-display text-2xl font-semibold text-ink">
           Sorteos que creé
         </h2>
         {creados.length === 0 ? (
-          <p className="mt-4 text-pine-deep/75">
+          <p className="mt-4 text-pine">
             Aún no has creado ninguno.{" "}
-            <Link href="/crear" className="font-semibold text-pine underline-offset-4 hover:underline">
+            <Link
+              href="/crear"
+              className="font-semibold text-coral underline-offset-4 hover:underline"
+            >
               Crear sorteo
             </Link>
           </p>
         ) : (
-          <ul className="mt-4 flex flex-col divide-y divide-pine/15 border-y border-pine/15">
+          <ul className="mt-4 flex flex-col gap-3">
             {creados.map((sorteo) => (
-              <li
-                key={sorteo.codigo}
-                className="flex flex-col gap-3 py-5 sm:flex-row sm:items-center sm:justify-between"
-              >
-                <div className="min-w-0">
-                  <p className="font-display text-xl font-bold text-ink">
-                    {sorteo.titulo}
-                  </p>
-                  <p className="mt-1 font-mono text-sm text-pine-deep/70">
-                    {sorteo.codigo} · {sorteo.numUnidos}/
-                    {sorteo.numParticipantes} unidos
-                  </p>
-                </div>
-                <div className="flex flex-wrap items-center gap-3">
-                  <Link
-                    href={`/s/${sorteo.codigo}/hecho`}
-                    className="text-sm font-semibold text-pine underline-offset-4 hover:underline"
-                  >
-                    Compartir
-                  </Link>
-                  <Link
-                    href={`/s/${sorteo.codigo}`}
-                    className="text-sm font-semibold text-pine underline-offset-4 hover:underline"
-                  >
-                    Abrir
-                  </Link>
-                  <button
-                    type="button"
-                    onClick={() => borrar(sorteo.codigo, sorteo.titulo)}
-                    disabled={deleting === sorteo.codigo}
-                    className="text-sm font-semibold text-coral-deep underline-offset-4 hover:underline disabled:opacity-60"
-                  >
-                    {deleting === sorteo.codigo ? "Borrando…" : "Borrar"}
-                  </button>
+              <li key={sorteo.codigo} className="soft-panel px-4 py-4 sm:px-5">
+                <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                  <div className="min-w-0">
+                    <p className="font-display text-xl font-semibold text-ink">
+                      {sorteo.titulo}
+                    </p>
+                    <p className="mt-1 font-mono text-sm text-coral/80">
+                      {sorteo.codigo} · {sorteo.numUnidos}/
+                      {sorteo.numParticipantes} unidos
+                    </p>
+                  </div>
+                  <div className="flex flex-wrap items-center gap-4">
+                    <Link
+                      href={`/s/${sorteo.codigo}/hecho`}
+                      className="text-sm font-semibold text-pine transition hover:text-coral"
+                    >
+                      Compartir
+                    </Link>
+                    <Link
+                      href={`/s/${sorteo.codigo}`}
+                      className="text-sm font-semibold text-coral transition hover:text-coral-deep"
+                    >
+                      Abrir
+                    </Link>
+                    <button
+                      type="button"
+                      onClick={() => borrar(sorteo.codigo, sorteo.titulo)}
+                      disabled={deleting === sorteo.codigo}
+                      className="text-sm font-semibold text-mark transition hover:underline disabled:opacity-60"
+                    >
+                      {deleting === sorteo.codigo ? "Borrando…" : "Borrar"}
+                    </button>
+                  </div>
                 </div>
               </li>
             ))}
@@ -122,53 +124,55 @@ export function PanelSorteos({ creados: initialCreados, unidos }: Props) {
       </section>
 
       <section>
-        <h2 className="font-display text-2xl font-bold text-ink">
+        <h2 className="font-display text-2xl font-semibold text-ink">
           Sorteos a los que me uní
         </h2>
         {unidos.length === 0 ? (
-          <p className="mt-4 text-pine-deep/75">
+          <p className="mt-4 text-pine">
             Todavía no te has unido a ninguno.{" "}
-            <Link href="/unirse" className="font-semibold text-pine underline-offset-4 hover:underline">
+            <Link
+              href="/unirse"
+              className="font-semibold text-coral underline-offset-4 hover:underline"
+            >
               Unirme con un código
             </Link>
           </p>
         ) : (
-          <ul className="mt-4 flex flex-col divide-y divide-pine/15 border-y border-pine/15">
+          <ul className="mt-4 flex flex-col gap-3">
             {unidos.map((sorteo) => (
-              <li
-                key={sorteo.codigo}
-                className="flex flex-col gap-3 py-5 sm:flex-row sm:items-center sm:justify-between"
-              >
-                <div className="min-w-0">
-                  <p className="font-display text-xl font-bold text-ink">
-                    {sorteo.titulo}
-                  </p>
-                  <p className="mt-1 text-sm text-pine-deep/70">
-                    Eres{" "}
-                    <span className="font-semibold text-ink">
-                      {sorteo.tuNombre}
-                    </span>
-                    {" · "}
-                    Te ha tocado{" "}
-                    <span className="font-semibold text-mark">
-                      {sorteo.asignado}
-                    </span>
-                  </p>
-                  {sorteo.mensaje ? (
-                    <p className="mt-2 text-sm leading-relaxed text-pine-deep/75">
-                      {sorteo.mensaje}
+              <li key={sorteo.codigo} className="soft-panel px-4 py-4 sm:px-5">
+                <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                  <div className="min-w-0">
+                    <p className="font-display text-xl font-semibold text-ink">
+                      {sorteo.titulo}
                     </p>
-                  ) : null}
-                  <p className="mt-1 font-mono text-xs text-pine-deep/55">
-                    {sorteo.codigo}
-                  </p>
+                    <p className="mt-1 text-sm text-pine">
+                      Eres{" "}
+                      <span className="font-semibold text-ink">
+                        {sorteo.tuNombre}
+                      </span>
+                      {" · "}
+                      Te ha tocado{" "}
+                      <span className="font-semibold text-mark">
+                        {sorteo.asignado}
+                      </span>
+                    </p>
+                    {sorteo.mensaje ? (
+                      <p className="mt-2 text-sm leading-relaxed text-pine">
+                        {sorteo.mensaje}
+                      </p>
+                    ) : null}
+                    <p className="mt-1 font-mono text-xs text-coral/70">
+                      {sorteo.codigo}
+                    </p>
+                  </div>
+                  <Link
+                    href={`/s/${sorteo.codigo}`}
+                    className="text-sm font-semibold text-coral transition hover:text-coral-deep"
+                  >
+                    Ver detalle
+                  </Link>
                 </div>
-                <Link
-                  href={`/s/${sorteo.codigo}`}
-                  className="text-sm font-semibold text-pine underline-offset-4 hover:underline"
-                >
-                  Ver detalle
-                </Link>
               </li>
             ))}
           </ul>

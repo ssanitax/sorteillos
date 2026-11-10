@@ -65,7 +65,7 @@ export default async function PanelPage() {
         <div className="flex flex-wrap items-center justify-between gap-3">
           <Link
             href="/"
-            className="font-display text-2xl font-semibold tracking-tight text-ink transition hover:text-coral"
+            className="brand-mark font-display text-2xl font-semibold tracking-tight transition hover:opacity-80"
           >
             Sorteillos
           </Link>
@@ -88,16 +88,10 @@ export default async function PanelPage() {
             </p>
           </div>
           <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
-            <Link
-              href="/unirse"
-              className="inline-flex min-h-11 flex-1 items-center justify-center rounded-md border border-ink/15 bg-foam/70 px-5 py-3 font-semibold text-ink transition hover:border-ink/30 sm:flex-none"
-            >
+            <Link href="/unirse" className="btn-secondary flex-1 sm:flex-none">
               Unirme
             </Link>
-            <Link
-              href="/crear"
-              className="inline-flex min-h-11 flex-1 items-center justify-center rounded-md bg-coral px-5 py-3 font-semibold text-foam transition hover:bg-[#27695c] sm:flex-none"
-            >
+            <Link href="/crear" className="btn-primary flex-1 sm:flex-none">
               Crear
             </Link>
           </div>
