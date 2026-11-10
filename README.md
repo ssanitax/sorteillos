@@ -33,30 +33,26 @@ Abre [http://localhost:3000](http://localhost:3000).
 
 ## Checklist de deploy (en orden)
 
-### 1. Base de datos (Turso)
+### 1. Base de datos (Turso) — hecho
 - [x] Cuenta en [turso.tech](https://turso.tech)
-- [x] Crear una database
-- [ ] Copiar `TURSO_DATABASE_URL` (`libsql://…`) y `TURSO_AUTH_TOKEN`
-- [ ] En tu PC, con esas vars, ejecutar:
-  ```bash
-  npm run db:push
-  ```
+- [x] Crear database `sorteillos`
+- [x] `TURSO_DATABASE_URL` + `TURSO_AUTH_TOKEN`
+- [x] `npm run db:push` (tablas creadas)
 
-### 2. Código en GitHub
-- [ ] Repo en GitHub (sin `.env.local`, sin `*.db`)
-- [ ] `git push` del proyecto
+### 2. Código en GitHub — hecho
+- [x] Repo `ssanitax/sorteillos`
+- [x] `git push`
 
-### 3. Vercel
-- [ ] Importar el repo en [vercel.com](https://vercel.com)
-- [ ] Añadir variables (Production):
-  - [ ] `TURSO_DATABASE_URL`
-  - [ ] `TURSO_AUTH_TOKEN`
-  - [ ] `NEXT_PUBLIC_APP_URL` = `https://TU-PROYECTO.vercel.app`
-- [ ] Deploy
+### 3. Vercel — en curso
+- [x] Importar el repo en Vercel
+- [x] Añadir variables (`TURSO_DATABASE_URL`, `TURSO_AUTH_TOKEN`, `NEXT_PUBLIC_APP_URL`)
+- [ ] Pulsar **Create Project** / esperar a que el deploy termine en verde
+- [ ] Abrir la URL (`https://sorteillos.vercel.app` o la que te dé Vercel)
 
 ### 4. Tras el primer deploy
-- [ ] Ajustar `NEXT_PUBLIC_APP_URL` si hace falta y redeploy
-- [ ] Probar: registro → crear sorteo → unirse con otra cuenta
+- [ ] Si la URL no es la de `NEXT_PUBLIC_APP_URL`, actualizarla y **Redeploy**
+- [ ] Probar: registro (usuario) → crear sorteo → unirse con otra cuenta
+- [ ] (Recomendado) Rotar el token de Turso en Turso + Vercel + `.env.local` (se pegó en el chat)
 
 ### Notas
 - En Vercel **no** uses `file:local.db`; tiene que ser Turso.

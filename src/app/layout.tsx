@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { DM_Sans, Fraunces } from "next/font/google";
 import "./globals.css";
 
@@ -18,6 +18,13 @@ export const metadata: Metadata = {
   title: "Sorteillos",
   description:
     "Organiza un amigo invisible con código. Cada persona solo ve a quién le toca.",
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+  themeColor: "#eef2f6",
 };
 
 export default function RootLayout({

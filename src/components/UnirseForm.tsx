@@ -3,6 +3,11 @@
 import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
 
+type NombreTag = {
+  nombre: string;
+  libre: boolean;
+};
+
 type PasoCodigo = {
   step: "codigo";
 };
@@ -11,7 +16,7 @@ type PasoNombre = {
   step: "nombre";
   codigo: string;
   titulo: string;
-  nombresLibres: string[];
+  nombres: NombreTag[];
 };
 
 type State = PasoCodigo | PasoNombre;
@@ -21,7 +26,7 @@ type Props = {
   sorteoInicial?: {
     codigo: string;
     titulo: string;
-    nombresLibres: string[];
+    nombres: NombreTag[];
   };
 };
 
@@ -33,7 +38,7 @@ export function UnirseForm({ codigoInicial = "", sorteoInicial }: Props) {
           step: "nombre",
           codigo: sorteoInicial.codigo,
           titulo: sorteoInicial.titulo,
-          nombresLibres: sorteoInicial.nombresLibres,
+          nombres: sorteoInicial.nombres,
         }
       : { step: "codigo" },
   );
@@ -43,6 +48,11 @@ export function UnirseForm({ codigoInicial = "", sorteoInicial }: Props) {
   const [nombre, setNombre] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+
+  function goAuth(pathCodigo: string) {
+    const next = encodeURIComponent(`/s/${pathCodigo}`);
+    router.push(`/registro?next=${next}`);
+  }
 
   async function buscarSorteo(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -62,11 +72,12 @@ export function UnirseForm({ codigoInicial = "", sorteoInicial }: Props) {
         titulo?: string;
         codigo?: string;
         unido?: boolean;
+        nombres?: NombreTag[];
         nombresLibres?: string[];
       };
 
       if (response.status === 401) {
-        router.push("/login");
+        goAuth(normalized);
         return;
       }
 
@@ -80,7 +91,11 @@ export function UnirseForm({ codigoInicial = "", sorteoInicial }: Props) {
         return;
       }
 
-      if (!data.nombresLibres?.length) {
+      const nombres: NombreTag[] =
+        data.nombres ??
+        (data.nombresLibres ?? []).map((n) => ({ nombre: n, libre: true }));
+
+      if (!nombres.some((n) => n.libre)) {
         setError("No quedan nombres libres en este sorteo.");
         return;
       }
@@ -89,7 +104,7 @@ export function UnirseForm({ codigoInicial = "", sorteoInicial }: Props) {
         step: "nombre",
         codigo: data.codigo!,
         titulo: data.titulo!,
-        nombresLibres: data.nombresLibres,
+        nombres,
       });
       setNombre("");
     } catch {
@@ -123,7 +138,7 @@ export function UnirseForm({ codigoInicial = "", sorteoInicial }: Props) {
       };
 
       if (response.status === 401) {
-        router.push("/login");
+        goAuth(state.codigo);
         return;
       }
 
@@ -143,41 +158,52 @@ export function UnirseForm({ codigoInicial = "", sorteoInicial }: Props) {
 
   if (state.step === "nombre") {
     return (
-      <form onSubmit={reclamar} className="mt-10 flex max-w-md flex-col gap-6">
+      <form onSubmit={reclamar} className="mt-8 flex w-full max-w-lg flex-col gap-6">
         <div>
-          <p className="text-sm font-medium text-pine">
-            Sorteo
-          </p>
-          <p className="mt-1 font-display text-2xl font-bold text-ink">
+          <p className="text-sm font-medium text-pine">Sorteo</p>
+          <p className="mt-1 font-display text-2xl font-semibold text-ink sm:text-3xl">
             {state.titulo}
           </p>
-          <p className="mt-1 font-mono text-sm text-pine-deep/70">
-            {state.codigo}
-          </p>
+          <p className="mt-1 font-mono text-sm text-pine">{state.codigo}</p>
         </div>
 
-        <label className="flex flex-col gap-2">
-          <span className="text-sm font-medium text-pine">
-            ¿Quién eres?
+        <fieldset className="flex flex-col gap-3">
+          <legend className="text-sm font-medium text-pine">¿Quién eres?</legend>
+          <div className="flex flex-wrap gap-2">
+            {state.nombres.map((tag) => {
+              const selected = nombre === tag.nombre;
+              if (!tag.libre) {
+                return (
+                  <span
+                    key={tag.nombre}
+                    title="Ya unido"
+                    className="inline-flex min-h-11 items-center rounded-md border border-ink/10 bg-mist/80 px-4 py-2.5 text-base text-pine/55 line-through decoration-pine/30"
+                  >
+                    {tag.nombre}
+                  </span>
+                );
+              }
+              return (
+                <button
+                  key={tag.nombre}
+                  type="button"
+                  onClick={() => setNombre(tag.nombre)}
+                  aria-pressed={selected}
+                  className={`min-h-11 rounded-md px-4 py-2.5 text-base font-medium transition ${
+                    selected
+                      ? "bg-coral text-foam"
+                      : "border border-ink/15 bg-foam/80 text-ink hover:border-coral/50 hover:bg-foam"
+                  }`}
+                >
+                  {tag.nombre}
+                </button>
+              );
+            })}
+          </div>
+          <span className="text-sm text-pine">
+            Toca tu nombre. Los tachados ya se han unido.
           </span>
-          <select
-            value={nombre}
-            onChange={(e) => setNombre(e.target.value)}
-            className="appearance-none border-0 border-b-2 border-pine/30 bg-transparent py-3 text-xl text-ink outline-none transition focus:border-ink"
-            required
-          >
-            <option value="">Elige tu nombre</option>
-            {state.nombresLibres.map((n) => (
-              <option key={n} value={n}>
-                {n}
-              </option>
-            ))}
-          </select>
-          <span className="text-sm text-pine-deep/65">
-            Solo aparecen nombres aún no reclamados. Quedará asociado a tu
-            cuenta.
-          </span>
-        </label>
+        </fieldset>
 
         {error ? (
           <p className="text-sm font-medium text-coral-deep" role="alert">
@@ -185,42 +211,48 @@ export function UnirseForm({ codigoInicial = "", sorteoInicial }: Props) {
           </p>
         ) : null}
 
-        <div className="flex flex-wrap gap-3">
+        <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
           <button
             type="submit"
             disabled={loading || !nombre}
-            className="inline-flex bg-coral px-7 py-3.5 font-semibold text-foam transition hover:bg-[#27695c] disabled:opacity-60"
+            className="inline-flex min-h-11 w-full items-center justify-center rounded-md bg-coral px-7 py-3 font-semibold text-foam transition hover:bg-[#27695c] disabled:opacity-60 sm:w-auto"
           >
             {loading ? "Uniendo…" : "Unirme"}
           </button>
-          <button
-            type="button"
-            onClick={() => {
-              setState({ step: "codigo" });
-              setError(null);
-            }}
-            className="text-sm font-semibold text-pine underline-offset-4 hover:underline"
-          >
-            Otro código
-          </button>
+          {!sorteoInicial ? (
+            <button
+              type="button"
+              onClick={() => {
+                setState({ step: "codigo" });
+                setError(null);
+              }}
+              className="min-h-11 text-sm font-semibold text-pine underline-offset-4 hover:underline"
+            >
+              Otro código
+            </button>
+          ) : null}
         </div>
       </form>
     );
   }
 
   return (
-    <form onSubmit={buscarSorteo} className="mt-10 flex max-w-md flex-col gap-6">
+    <form
+      onSubmit={buscarSorteo}
+      className="mt-8 flex w-full max-w-lg flex-col gap-6"
+    >
       <label className="flex flex-col gap-2">
-        <span className="text-sm font-medium text-pine">
-          Código del sorteo
-        </span>
+        <span className="text-sm font-medium text-pine">Código del sorteo</span>
         <input
           value={codigo}
           onChange={(e) => setCodigo(e.target.value.toUpperCase())}
           placeholder="NAVIDAD26"
-          className="border-0 border-b-2 border-pine/30 bg-transparent py-3 font-mono text-2xl tracking-wide text-ink outline-none transition placeholder:text-pine/35 focus:border-ink"
+          className="border-0 border-b-2 border-pine/30 bg-transparent py-3 font-mono text-xl tracking-wide text-ink outline-none transition placeholder:text-pine/35 focus:border-ink sm:text-2xl"
           maxLength={20}
           required
+          autoCapitalize="characters"
+          autoCorrect="off"
+          spellCheck={false}
         />
       </label>
 
@@ -233,7 +265,7 @@ export function UnirseForm({ codigoInicial = "", sorteoInicial }: Props) {
       <button
         type="submit"
         disabled={loading}
-        className="inline-flex w-fit bg-coral px-7 py-3.5 font-semibold text-foam transition hover:bg-[#27695c] disabled:opacity-60"
+        className="inline-flex min-h-11 w-full items-center justify-center rounded-md bg-coral px-7 py-3 font-semibold text-foam transition hover:bg-[#27695c] disabled:opacity-60 sm:w-auto"
       >
         {loading ? "Buscando…" : "Continuar"}
       </button>

@@ -35,15 +35,15 @@ export default async function HechoPage({ params }: PageProps) {
     notFound();
   }
 
-  const path = `/unirse?codigo=${sorteo.codigo}`;
+  const path = `/s/${sorteo.codigo}`;
   const fallback = process.env.NEXT_PUBLIC_APP_URL
     ? `${process.env.NEXT_PUBLIC_APP_URL.replace(/\/$/, "")}${path}`
     : path;
 
   return (
     <div className="atmosphere relative flex min-h-full flex-1 flex-col">
-      <div className="relative z-10 mx-auto w-full max-w-3xl px-6 py-12 sm:px-10 sm:py-16">
-        <div className="flex flex-wrap items-center justify-between gap-4">
+      <div className="relative z-10 mx-auto w-full max-w-3xl px-4 py-10 sm:px-10 sm:py-16">
+        <div className="flex flex-wrap items-center justify-between gap-3">
           <Link
             href="/"
             className="font-display text-2xl font-semibold tracking-tight text-ink transition hover:text-coral"
@@ -58,11 +58,11 @@ export default async function HechoPage({ params }: PageProps) {
           </Link>
         </div>
 
-        <p className="mt-10 text-sm font-medium text-pine">Listo</p>
-        <h1 className="mt-2 font-display text-4xl font-semibold tracking-tight text-ink sm:text-5xl">
+        <p className="mt-8 text-sm font-medium text-pine sm:mt-10">Listo</p>
+        <h1 className="mt-2 font-display text-3xl font-semibold tracking-tight text-ink sm:text-5xl">
           {sorteo.titulo}
         </h1>
-        <p className="mt-3 max-w-lg text-lg text-pine">
+        <p className="mt-3 max-w-lg text-base text-pine sm:text-lg">
           Comparte el código o el enlace. Cada persona se registra, se une
           eligiendo su nombre y verá solo su asignación en su panel.
         </p>

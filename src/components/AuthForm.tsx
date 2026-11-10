@@ -3,14 +3,16 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
+import { safeNextPath } from "@/lib/safe-next";
 
 type Mode = "login" | "registro";
 
 type Props = {
   mode: Mode;
+  next?: string;
 };
 
-export function AuthForm({ mode }: Props) {
+export function AuthForm({ mode, next }: Props) {
   const router = useRouter();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -19,6 +21,11 @@ export function AuthForm({ mode }: Props) {
   const [loading, setLoading] = useState(false);
 
   const isRegistro = mode === "registro";
+  const destination = safeNextPath(next);
+  const nextQuery =
+    destination !== "/panel"
+      ? `?next=${encodeURIComponent(destination)}`
+      : "";
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -52,7 +59,7 @@ export function AuthForm({ mode }: Props) {
         return;
       }
 
-      router.push("/panel");
+      router.push(destination);
       router.refresh();
     } catch {
       setError("Error de red. Inténtalo de nuevo.");
@@ -62,7 +69,13 @@ export function AuthForm({ mode }: Props) {
   }
 
   return (
-    <form onSubmit={onSubmit} className="mt-10 flex max-w-md flex-col gap-6">
+    <form onSubmit={onSubmit} className="mt-8 flex w-full max-w-md flex-col gap-6">
+      {destination !== "/panel" ? (
+        <p className="rounded-md border border-ink/10 bg-foam/70 px-4 py-3 text-sm text-pine">
+          Cuando entres, te llevamos de vuelta al sorteo.
+        </p>
+      ) : null}
+
       <label className="flex flex-col gap-2">
         <span className="text-sm font-medium text-pine">Usuario</span>
         <input
@@ -116,7 +129,7 @@ export function AuthForm({ mode }: Props) {
       <button
         type="submit"
         disabled={loading}
-        className="inline-flex w-fit items-center justify-center rounded-md bg-coral px-7 py-3.5 text-base font-semibold text-foam transition hover:bg-[#27695c] disabled:cursor-not-allowed disabled:opacity-60"
+        className="inline-flex min-h-11 w-full items-center justify-center rounded-md bg-coral px-7 py-3 text-base font-semibold text-foam transition hover:bg-[#27695c] disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
       >
         {loading
           ? "Espera…"
@@ -130,7 +143,7 @@ export function AuthForm({ mode }: Props) {
           <>
             ¿Ya tienes cuenta?{" "}
             <Link
-              href="/login"
+              href={`/login${nextQuery}`}
               className="font-semibold text-coral underline-offset-4 hover:underline"
             >
               Inicia sesión
@@ -140,7 +153,7 @@ export function AuthForm({ mode }: Props) {
           <>
             ¿Nuevo aquí?{" "}
             <Link
-              href="/registro"
+              href={`/registro${nextQuery}`}
               className="font-semibold text-coral underline-offset-4 hover:underline"
             >
               Regístrate

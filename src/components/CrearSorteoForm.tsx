@@ -153,7 +153,7 @@ export function CrearSorteoForm() {
         <button
           type="button"
           onClick={addNombre}
-          className="mt-1 inline-flex w-fit border-2 border-pine/30 px-5 py-2.5 text-sm font-semibold text-pine-deep transition hover:border-pine hover:bg-foam/40"
+          className="mt-1 inline-flex min-h-11 w-full items-center justify-center border-2 border-pine/30 px-5 py-2.5 text-sm font-semibold text-pine-deep transition hover:border-pine hover:bg-foam/40 sm:w-fit"
         >
           Añadir participante
         </button>
@@ -188,7 +188,7 @@ export function CrearSorteoForm() {
       <button
         type="submit"
         disabled={loading}
-        className="inline-flex w-fit items-center justify-center bg-coral px-7 py-3.5 text-base font-semibold text-foam transition hover:bg-[#27695c] disabled:cursor-not-allowed disabled:opacity-60 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
+        className="inline-flex min-h-11 w-full items-center justify-center rounded-md bg-coral px-7 py-3.5 text-base font-semibold text-foam transition hover:bg-[#27695c] disabled:cursor-not-allowed disabled:opacity-60 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink sm:w-auto"
       >
         {loading ? "Sorteando…" : "Crear sorteo"}
       </button>

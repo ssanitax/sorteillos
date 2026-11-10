@@ -9,11 +9,11 @@ export default async function CrearPage() {
 
   return (
     <div className="atmosphere relative flex min-h-full flex-1 flex-col overflow-hidden">
-      <div className="relative z-10 mx-auto w-full max-w-3xl px-6 py-12 sm:px-10 sm:py-16">
-        <div className="flex flex-wrap items-center justify-between gap-4">
+      <div className="relative z-10 mx-auto w-full max-w-3xl px-4 py-10 sm:px-10 sm:py-16">
+        <div className="flex flex-wrap items-center justify-between gap-3">
           <Link
             href="/"
-            className="font-display text-2xl font-extrabold tracking-tight text-pine-deep transition hover:text-coral"
+            className="font-display text-2xl font-semibold tracking-tight text-ink transition hover:text-coral"
           >
             Sorteillos
           </Link>
@@ -25,13 +25,10 @@ export default async function CrearPage() {
           </Link>
         </div>
 
-        <h1 className=" mt-10 font-display text-4xl font-bold tracking-tight text-ink sm:text-5xl">
+        <h1 className="mt-8 font-display text-3xl font-semibold tracking-tight text-ink sm:mt-10 sm:text-5xl">
           Crear amigo invisible
         </h1>
-        <p
-          className=" mt-3 max-w-lg text-lg text-pine-deep/75"
-          style={{ animationDelay: "80ms" }}
-        >
+        <p className="mt-3 max-w-lg text-base text-pine sm:text-lg">
           Elige un código, añade los nombres y compártelo. Si también
           participas, únete después eligiendo tu nombre.
         </p>

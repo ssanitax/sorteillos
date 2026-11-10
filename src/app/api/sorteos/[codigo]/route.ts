@@ -80,15 +80,18 @@ export async function GET(_request: Request, context: RouteContext) {
     });
   }
 
-  const libres = await db
-    .select({ nombre: participantes.nombre })
+  const todos = await db
+    .select({
+      nombre: participantes.nombre,
+      userId: participantes.userId,
+    })
     .from(participantes)
-    .where(
-      and(
-        eq(participantes.sorteoId, sorteo.id),
-        isNull(participantes.userId),
-      ),
-    );
+    .where(eq(participantes.sorteoId, sorteo.id));
+
+  const nombres = todos.map((row) => ({
+    nombre: row.nombre,
+    libre: row.userId == null,
+  }));
 
   return NextResponse.json({
     titulo: sorteo.titulo,
@@ -96,7 +99,8 @@ export async function GET(_request: Request, context: RouteContext) {
     mensaje: sorteo.mensaje,
     esCreador,
     unido: false,
-    nombresLibres: libres.map((row) => row.nombre),
+    nombres,
+    nombresLibres: nombres.filter((n) => n.libre).map((n) => n.nombre),
     ...(esCreador ? { pendientes } : {}),
   });
 }

@@ -60,41 +60,43 @@ export default async function PanelPage() {
   }));
 
   return (
-    <div className="atmosphere relative flex min-h-full flex-1 flex-col overflow-hidden">
-      <div className="relative z-10 mx-auto w-full max-w-3xl px-6 py-12 sm:px-10 sm:py-16">
-        <div className="flex flex-wrap items-center justify-between gap-4">
+    <div className="atmosphere relative flex min-h-full flex-1 flex-col">
+      <div className="relative z-10 mx-auto w-full max-w-3xl px-4 py-10 sm:px-10 sm:py-16">
+        <div className="flex flex-wrap items-center justify-between gap-3">
           <Link
             href="/"
-            className="font-display text-2xl font-extrabold tracking-tight text-pine-deep transition hover:text-coral"
+            className="font-display text-2xl font-semibold tracking-tight text-ink transition hover:text-coral"
           >
             Sorteillos
           </Link>
-          <div className="flex items-center gap-4">
-            <span className="text-sm text-pine-deep/70">@{user.username}</span>
+          <div className="flex items-center gap-3 sm:gap-4">
+            <span className="max-w-[40vw] truncate text-sm text-pine">
+              @{user.username}
+            </span>
             <LogoutButton />
           </div>
         </div>
 
-        <div className="mt-10 flex flex-wrap items-end justify-between gap-4">
+        <div className="mt-8 flex flex-col gap-6 sm:mt-10 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <h1 className="font-display text-4xl font-bold tracking-tight text-ink sm:text-5xl">
+            <h1 className="font-display text-3xl font-semibold tracking-tight text-ink sm:text-5xl">
               Tu panel
             </h1>
-            <p className="mt-3 max-w-md text-lg text-pine-deep/75">
+            <p className="mt-3 max-w-md text-base text-pine sm:text-lg">
               Crea un amigo invisible o únete con un código. Tu asignación
               queda guardada en tu perfil.
             </p>
           </div>
-          <div className="flex flex-wrap gap-3">
+          <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
             <Link
               href="/unirse"
-              className="inline-flex border-2 border-pine/30 px-5 py-3 font-semibold text-pine-deep transition hover:border-pine hover:bg-foam/40"
+              className="inline-flex min-h-11 flex-1 items-center justify-center rounded-md border border-ink/15 bg-foam/70 px-5 py-3 font-semibold text-ink transition hover:border-ink/30 sm:flex-none"
             >
               Unirme
             </Link>
             <Link
               href="/crear"
-              className="inline-flex bg-coral px-5 py-3 font-semibold text-foam transition hover:bg-[#27695c]"
+              className="inline-flex min-h-11 flex-1 items-center justify-center rounded-md bg-coral px-5 py-3 font-semibold text-foam transition hover:bg-[#27695c] sm:flex-none"
             >
               Crear
             </Link>
