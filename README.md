@@ -1,36 +1,70 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Sorteillos — Amigo invisible
 
-## Getting Started
+App para organizar amigos invisibles con cuenta. Puedes **crear** un sorteo o **unirte** con un código; tu nombre y asignación quedan guardados en tu perfil.
 
-First, run the development server:
+## Stack
+
+- Next.js (App Router) + TypeScript
+- Drizzle ORM + Turso (SQLite serverless)
+- Auth propia: sesiones en cookie httpOnly + contraseñas con **Argon2id**
+- Deploy recomendado: Vercel conectado al repo de GitHub
+
+## Desarrollo local
 
 ```bash
+cp .env.example .env.local
+npm install
+npm run db:push
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+En local, la SQLite debe estar **fuera del repo** (p. ej. `%LOCALAPPDATA%\sorteillos\local.db`).
+Si el `.db` / `.db-wal` vive en la carpeta del proyecto, Next/Turbopack recarga la página en bucle.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Abre [http://localhost:3000](http://localhost:3000).
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Variables de entorno
 
-## Learn More
+| Variable | Descripción |
+|----------|-------------|
+| `TURSO_DATABASE_URL` | `file:…` en local (fuera del repo), o `libsql://…` de Turso en producción |
+| `TURSO_AUTH_TOKEN` | Token de Turso (solo remoto) |
+| `NEXT_PUBLIC_APP_URL` | URL pública opcional |
 
-To learn more about Next.js, take a look at the following resources:
+## Checklist de deploy (en orden)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 1. Base de datos (Turso)
+- [x] Cuenta en [turso.tech](https://turso.tech)
+- [x] Crear una database
+- [ ] Copiar `TURSO_DATABASE_URL` (`libsql://…`) y `TURSO_AUTH_TOKEN`
+- [ ] En tu PC, con esas vars, ejecutar:
+  ```bash
+  npm run db:push
+  ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### 2. Código en GitHub
+- [ ] Repo en GitHub (sin `.env.local`, sin `*.db`)
+- [ ] `git push` del proyecto
 
-## Deploy on Vercel
+### 3. Vercel
+- [ ] Importar el repo en [vercel.com](https://vercel.com)
+- [ ] Añadir variables (Production):
+  - [ ] `TURSO_DATABASE_URL`
+  - [ ] `TURSO_AUTH_TOKEN`
+  - [ ] `NEXT_PUBLIC_APP_URL` = `https://TU-PROYECTO.vercel.app`
+- [ ] Deploy
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### 4. Tras el primer deploy
+- [ ] Ajustar `NEXT_PUBLIC_APP_URL` si hace falta y redeploy
+- [ ] Probar: registro → crear sorteo → unirse con otra cuenta
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Notas
+- En Vercel **no** uses `file:local.db`; tiene que ser Turso.
+- No subas `.env.local` ni archivos `.db` al repo.
+
+## Flujo de uso
+
+1. **Registro** con usuario + contraseña (confirmada dos veces).
+2. **Crear** un sorteo: título + código propio + nombres (mín. 3). Nadie se autoasigna.
+3. Comparte el código; cada persona se registra y va a **Unirme**.
+4. Al unirse elige quién es (un nombre solo lo puede reclamar una cuenta); la asignación queda en su panel.
