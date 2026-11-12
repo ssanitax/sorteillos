@@ -5,7 +5,7 @@ export default async function Home() {
   const user = await getSessionUser();
 
   return (
-    <div className="atmosphere relative flex min-h-full flex-1 flex-col">
+    <div className="atmosphere relative flex flex-1 flex-col">
       <header className="relative z-10 mx-auto flex w-full max-w-5xl items-center justify-end gap-5 px-4 pt-6 sm:px-10 sm:pt-8">
         {user ? (
           <Link

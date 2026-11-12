@@ -8,7 +8,7 @@ export default async function CrearPage() {
   if (!user) redirect("/login");
 
   return (
-    <div className="atmosphere relative flex min-h-full flex-1 flex-col overflow-hidden">
+    <div className="atmosphere relative flex flex-1 flex-col">
       <div className="relative z-10 mx-auto w-full max-w-3xl px-4 py-10 sm:px-10 sm:py-16">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <Link

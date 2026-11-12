@@ -35,12 +35,15 @@
 }
 
 html {
+  height: 100%;
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
 }
 
 body {
-  background: var(--background);
+  min-height: 100%;
+  min-height: 100dvh;
+  background: #efe6f4;
   color: var(--foreground);
   font-family: var(--font-outfit), "Segoe UI", sans-serif;
   overflow-x: clip;
@@ -49,6 +52,8 @@ body {
 .atmosphere {
   position: relative;
   isolation: isolate;
+  min-height: 100dvh;
+  overflow: hidden;
   background:
     radial-gradient(90% 70% at 8% 0%, rgba(243, 215, 228, 0.9) 0%, transparent 55%),
     radial-gradient(80% 60% at 100% 8%, rgba(217, 198, 234, 0.85) 0%, transparent 52%),
@@ -59,7 +64,8 @@ body {
 .atmosphere::before {
   content: "";
   position: absolute;
-  inset: auto -10% -18% auto;
+  right: -8%;
+  bottom: -12%;
   width: min(52vw, 28rem);
   height: min(52vw, 28rem);
   border-radius: 50%;
@@ -72,7 +78,8 @@ body {
 .atmosphere::after {
   content: "";
   position: absolute;
-  inset: -12% auto auto -8%;
+  left: -6%;
+  top: -10%;
   width: min(42vw, 22rem);
   height: min(42vw, 22rem);
   border-radius: 50%;

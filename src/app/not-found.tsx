@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function NotFound() {
   return (
-    <div className="atmosphere relative flex min-h-full flex-1 flex-col overflow-hidden">
+    <div className="atmosphere relative flex flex-1 flex-col">
       <div className="relative z-10 mx-auto flex w-full max-w-3xl flex-1 flex-col justify-center px-4 py-16 sm:px-10">
         <Link
           href="/"
